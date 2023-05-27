@@ -5,9 +5,9 @@ import { NavLink } from "react-router-dom";
 
 function BreadNavbar() {
     return (
-    <Navbar bg="light" expand="lg">
-        <Container>
-            <Navbar.Brand>
+    <Navbar bg="light" expand="lg" className="breadNavbar" sticky="top">
+        <Container className="navbarContainer">
+            <Navbar.Brand className="navbarBrandBox">
                 <img src={breadIcon} className="breadIcon"/>
                 Bread Tracker
             </Navbar.Brand>

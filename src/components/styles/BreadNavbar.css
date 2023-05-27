@@ -1,0 +1,21 @@
+.breadIcon {
+    width: 50px;
+}
+
+.navbarBrandBox {
+    margin-left: 0px;
+    text-align: left;
+}
+
+.navbarContainer {
+    margin-left: 0px;
+    max-width: 100vw;
+    width: 100vw;
+    min-width: 100vw;
+    padding-left: 0px !important;
+    background-color: #26C6DA;
+}
+
+.breadNavbar {
+    padding: 0px !important;;
+}
