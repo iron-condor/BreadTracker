@@ -1,7 +1,7 @@
 import './App.css'
 import { BrowserRouter, Route, RouterProvider, Routes, createBrowserRouter } from 'react-router-dom';
-import Dashboard from './pages/Dashboard';
-import BreadNavbar from './components/BreadNavbar';
+import Dashboard from './pages/dashboard/Dashboard';
+import BreadNavbar from './components/breadnavbar/BreadNavbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {

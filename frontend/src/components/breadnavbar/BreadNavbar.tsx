@@ -1,6 +1,6 @@
 import { Container, Nav, Navbar } from "react-bootstrap";
-import breadIcon from '../assets/BreadIcon.png';
-import './styles/BreadNavbar.css';
+import breadIcon from '../../assets/BreadIcon.png';
+import './BreadNavbar.css';
 import { NavLink } from "react-router-dom";
 
 function BreadNavbar() {

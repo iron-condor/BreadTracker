@@ -1,0 +1,24 @@
+.recipePreviewDiv {
+  width: 30rem;
+  background-color: #FFD180;
+  border-radius: 20px;
+}
+
+.recipePreviewImage {
+  width: 30rem;
+  height: 15rem;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.recipePreviewBelowImage {
+  padding: 1rem;
+}
+
+.recipePreviewTitle {
+  font-weight: ;
+}
+
+.recipePreviewDescription {
+  font-style: italic;
+}

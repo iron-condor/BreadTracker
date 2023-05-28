@@ -43,6 +43,7 @@ public class RecipeController {
     Recipe[] asArray = new Recipe[recipeList.size()];
     asArray = (Recipe[]) recipeList.toArray(asArray);
     resp.recipeList = asArray;
+    resp.success = true;
     
     return ResponseEntity.status(HttpStatus.OK).body(resp);
   }

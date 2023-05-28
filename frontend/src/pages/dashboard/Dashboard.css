@@ -1,0 +1,4 @@
+.recipePreviewContainer {
+  display: flex;
+  justify-content: space-between;
+}

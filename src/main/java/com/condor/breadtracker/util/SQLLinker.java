@@ -136,8 +136,8 @@ public class SQLLinker implements DisposableBean {
                         r1.getString("name"),
                         r1.getString("description"),
                         r1.getArray("timer_labels"),
-                        r1.getArray("timer_upper_limits"),
-                        r1.getArray("timer_lower_limits")));
+                        r1.getArray("timer_lower_limits"),
+                        r1.getArray("timer_upper_limits")));
             }
             st.close();
             r1.close();

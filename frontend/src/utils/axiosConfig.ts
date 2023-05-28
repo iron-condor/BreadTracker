@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 
 // const baseURL = process.env.NODE_ENV === "development"
 //   ? "http://localhost:8080/"
@@ -6,7 +6,7 @@ import axios from 'axios';
 
 const baseURL = "http://localhost:8080";
 
-const connector = axios.create({
+const connector: AxiosInstance = axios.create({
     baseURL,
     withCredentials: false
 })
