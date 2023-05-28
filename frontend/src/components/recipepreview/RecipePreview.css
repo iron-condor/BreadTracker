@@ -1,6 +1,6 @@
 .recipePreviewDiv {
   width: 30rem;
-  background-color: #FFD180;
+  background-color: #FFECB3;
   border-radius: 20px;
 }
 
@@ -16,9 +16,14 @@
 }
 
 .recipePreviewTitle {
-  font-weight: ;
+  /* font-weight: normal; */
 }
 
 .recipePreviewDescription {
   font-style: italic;
+}
+
+.timerCollapseBtn {
+  width: 100%;
+  margin-top: 1rem;
 }

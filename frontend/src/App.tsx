@@ -1,8 +1,9 @@
-import './App.css'
+import './App.css';
 import { BrowserRouter, Route, RouterProvider, Routes, createBrowserRouter } from 'react-router-dom';
 import Dashboard from './pages/dashboard/Dashboard';
 import BreadNavbar from './components/breadnavbar/BreadNavbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Recipes from './pages/recipes/Recipes';
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Dashboard/>}/>
           <Route path="/starters" element={<div>Starters</div>}/>
-          <Route path="/recipes" element={<div>Recipes</div>}/>
+          <Route path="/recipes" element={<Recipes/>}/>
         </Routes>
       </BrowserRouter>
     </>

@@ -1,0 +1,25 @@
+.recipePreviewContainer {
+  width: 100vw;
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  row-gap: 10px;
+  column-gap: 30px;
+  padding: 1rem;
+}
+
+.addBreadCollapseBtn {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.newRecipeDiv {
+  background-color: #B2EBF2;
+}
+
+.formButtonFooter {
+  display: flex;
+  margin-top: 1rem;
+  gap: 1rem;
+}

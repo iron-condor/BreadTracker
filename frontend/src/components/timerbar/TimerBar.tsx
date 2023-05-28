@@ -16,9 +16,8 @@ function TimerBar(props: TimerBarProps) {
       let timer = props.timers[i];
       let lowerPerc = timer.lowerLimit / timer.upperLimit * 100;
       let upperPerc = 100 - lowerPerc;
-      console.log(timer.lowerLimit + " / " + timer.upperLimit + "\n" + lowerPerc + " " + upperPerc);
       ret.push(
-        <div>
+        <div key={"timerBarDiv" + i}>
           <span>{timer.label}</span>
           <ProgressBar>
             <ProgressBar
@@ -27,7 +26,6 @@ function TimerBar(props: TimerBarProps) {
               variant={"warning"}
               now={lowerPerc}
               label={getTimeLabel(timer.lowerLimit)}
-              // key={i}
               />
             <ProgressBar
               striped={timer.active}
@@ -36,7 +34,6 @@ function TimerBar(props: TimerBarProps) {
               now={upperPerc}
               label={getTimeLabel(timer.upperLimit)}
               visuallyHidden={timer.lowerLimit == timer.upperLimit}
-              // key={i}
               />
           </ProgressBar>
         </div>

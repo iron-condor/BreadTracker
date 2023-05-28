@@ -1,0 +1,12 @@
+.themeBtn {
+  background-color: #FFA726;
+  border: none;
+}
+
+.themeBtn:hover {
+  background-color: #F57C00;
+}
+
+.themeBtn:active.themeBtn:focus {
+  background-color: #EF6C00;
+}
