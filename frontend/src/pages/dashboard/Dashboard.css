@@ -1,4 +1,6 @@
 .recipePreviewContainer {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+  row-gap: 10px;
+  column-gap: 30px;
 }

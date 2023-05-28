@@ -64,7 +64,17 @@ function TimerBar(props: TimerBarProps) {
     let mins = duration % 60;
     let hrs = (duration - mins) / 60;
   
-    return hrs + "hr " + mins + "min " + secs + "sec";
+    let str = "";
+    if (hrs != 0) {
+      str += hrs + " hour" + (hrs > 1 ? "s " : " ");
+    }
+    if (mins != 0) {
+      str += mins + " minute" + (mins > 1 ? "s " : " ");
+    }
+    if (secs != 0) {
+      str += secs + " second" + (secs > 1 ? "s " : " ");
+    }
+    return str;
   }
 
   return (
