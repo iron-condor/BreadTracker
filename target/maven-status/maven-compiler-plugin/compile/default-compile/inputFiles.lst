@@ -1,0 +1,16 @@
+/home/solly/Code/HTML/BreadTracker/src/main/java/com/condor/breadtracker/session/websocket/object/Blank.java
+/home/solly/Code/HTML/BreadTracker/src/main/java/com/condor/breadtracker/DevConfiguration.java
+/home/solly/Code/HTML/BreadTracker/src/main/java/com/condor/breadtracker/recipe/Recipe.java
+/home/solly/Code/HTML/BreadTracker/src/main/java/com/condor/breadtracker/ServletInitializer.java
+/home/solly/Code/HTML/BreadTracker/src/main/java/com/condor/breadtracker/recipe/Timer.java
+/home/solly/Code/HTML/BreadTracker/src/main/java/com/condor/breadtracker/util/BaseResponse.java
+/home/solly/Code/HTML/BreadTracker/src/main/java/com/condor/breadtracker/BreadTrackerApplication.java
+/home/solly/Code/HTML/BreadTracker/src/main/java/com/condor/breadtracker/session/websocket/WebsocketController.java
+/home/solly/Code/HTML/BreadTracker/src/main/java/com/condor/breadtracker/session/websocket/WebSocketConfig.java
+/home/solly/Code/HTML/BreadTracker/src/main/java/com/condor/breadtracker/session/websocket/object/Base.java
+/home/solly/Code/HTML/BreadTracker/src/main/java/com/condor/breadtracker/SampleController.java
+/home/solly/Code/HTML/BreadTracker/src/main/java/com/condor/breadtracker/recipe/RecipeController.java
+/home/solly/Code/HTML/BreadTracker/src/main/java/com/condor/breadtracker/session/websocket/WebsocketTypes.java
+/home/solly/Code/HTML/BreadTracker/src/main/java/com/condor/breadtracker/util/SQLLinker.java
+/home/solly/Code/HTML/BreadTracker/src/main/java/com/condor/breadtracker/session/websocket/WebsocketConfigurator.java
+/home/solly/Code/HTML/BreadTracker/src/main/java/com/condor/breadtracker/starter/Starter.java
