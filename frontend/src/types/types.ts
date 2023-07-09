@@ -2,6 +2,7 @@ export interface Timer {
   label: string;
   lowerLimit: number;
   upperLimit: number;
+  overnight: boolean;
   finishedAt?: number;
   active?: boolean;
 }

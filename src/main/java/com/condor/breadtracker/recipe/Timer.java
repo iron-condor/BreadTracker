@@ -9,11 +9,18 @@ public class Timer {
   private long lowerLimit;
   @JsonProperty
   private long upperLimit;
-  
+  @JsonProperty
+  private boolean overnight;
+
   public Timer(String label, long lowerLimit, long upperLimit) {
     this.label = label;
     this.lowerLimit = lowerLimit;
     this.upperLimit = upperLimit;
+  }
+
+  public Timer(String label, boolean overnight) {
+    this.label = label;
+    this.overnight = overnight;
   }
 
   public long getLowerLimit() {
@@ -38,5 +45,13 @@ public class Timer {
 
   public void setLabel(String label) {
     this.label = label;
+  }
+
+  public boolean isOvernight() {
+    return overnight;
+  }
+
+  public void setOvernight(boolean overnight) {
+    this.overnight = overnight;
   }
 }
