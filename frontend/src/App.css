@@ -10,3 +10,7 @@
 .themeBtn:active.themeBtn:focus {
   background-color: #EF6C00;
 }
+
+.mr-5 {
+  margin-right: 5px;
+}

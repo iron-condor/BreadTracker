@@ -34,6 +34,10 @@ public class RecipeController {
     public Timer[] timers;
   }
 
+  public static class AddRecipeResponse extends BaseResponse {
+    public Recipe newRecipe;
+  }
+
 
   @RequestMapping(value = "/recipes/getAll", method = RequestMethod.GET)
   ResponseEntity<GetRecipesResponse> getRecipes(HttpServletRequest request) {
@@ -49,8 +53,8 @@ public class RecipeController {
   }
 
   @RequestMapping(value = "/recipes/new", method = RequestMethod.POST)
-  ResponseEntity<BaseResponse> newRecipe(HttpServletRequest request, @RequestBody AddRecipeRequest requestBody) {
-    BaseResponse resp = new BaseResponse();
+  ResponseEntity<AddRecipeResponse> newRecipe(HttpServletRequest request, @RequestBody AddRecipeRequest requestBody) {
+    AddRecipeResponse resp = new AddRecipeResponse();
 
     if (requestBody.name == null || requestBody.description == null || requestBody.timers == null) {
       resp.success = false;
@@ -60,6 +64,7 @@ public class RecipeController {
     UUID uuid = UUID.randomUUID();
     Recipe recipe = new Recipe(uuid, requestBody.name, requestBody.description, Arrays.asList(requestBody.timers));
     resp.success = SQLLinker.getInstance().addRecipe(recipe);
+    resp.newRecipe = recipe;
     
     return ResponseEntity.status(HttpStatus.OK).body(resp);
   }
