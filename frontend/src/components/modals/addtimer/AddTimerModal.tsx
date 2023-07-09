@@ -5,6 +5,7 @@ import { faBell, faInfoCircle, faVolumeHigh } from '@fortawesome/free-solid-svg-
 import { useState } from "react";
 import { Timer } from "../../../types/types";
 import { useForm } from "react-hook-form";
+import '../../../common.css';
 
 interface AddTimerModalProps {
   showModal: boolean;
@@ -61,7 +62,7 @@ function AddTimerModal(props: AddTimerModalProps) {
 
   return (
     // TODO: Add validation
-    <Modal className="addTimerModal" show={props.showModal} onHide={() => props.setShowModalFunc(false)}>
+    <Modal className="breadModal" show={props.showModal} onHide={() => props.setShowModalFunc(false)}>
       <Form onSubmit={handleSubmit(updateTimers)}>
 
         <Modal.Header closeButton>
@@ -76,8 +77,8 @@ function AddTimerModal(props: AddTimerModalProps) {
           <Form.Control required placeholder="Name" {...register("name")}></Form.Control>
           <br/>
           <ButtonGroup>
-            <Button variant={isOvernightTimer ? "primary" : "secondary"} onClick={() => setIsOvernightTimer(true)}>Overnight</Button>
-            <Button variant={isOvernightTimer ? "secondary" : "primary"} onClick={() => setIsOvernightTimer(false)}>Limit based</Button>
+            <Button className={isOvernightTimer ? "primaryBtn" : ""} variant={isOvernightTimer ? "primary" : "secondary"} onClick={() => setIsOvernightTimer(true)}>Overnight</Button>
+            <Button className={!isOvernightTimer ? "primaryBtn" : ""} variant={!isOvernightTimer ? "primary" : "secondary"} onClick={() => setIsOvernightTimer(false)}>Limit based</Button>
           </ButtonGroup>
           <Form.Group hidden={isOvernightTimer}>
             <br/>
@@ -99,7 +100,7 @@ function AddTimerModal(props: AddTimerModalProps) {
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" type="submit">
+          <Button className="primaryBtn" type="submit">
             Save
           </Button>
           <Button variant="secondary" onClick={() => props.setShowModalFunc(false)}>

@@ -14,8 +14,8 @@ public class Recipe {
   private String name;
   private String description;
   private List<Timer> timers;
-  // TODO
-  // private byte[] picture;
+  // Base64 encoded version of the file
+  private String image;
 
   public Recipe(UUID uuid, String name, String description, List<Timer> timers) {
     this.uuid = uuid;
@@ -24,11 +24,27 @@ public class Recipe {
     this.timers = timers;
   }
 
+  public Recipe(UUID uuid, String name, String description, List<Timer> timers, String image) {
+    this.uuid = uuid;
+    this.name = name;
+    this.description = description;
+    this.timers = timers;
+    this.image = image;
+  }
+
   public Recipe(UUID uuid, String name, String description, Array timerLabels, Array lowerLimits, Array upperLimits) throws SQLException {
     this.uuid = uuid;
     this.name = name;
     this.description = description;
     this.timers = rebuildTimers(timerLabels, lowerLimits, upperLimits);
+  }
+
+  public Recipe(UUID uuid, String name, String description, Array timerLabels, Array lowerLimits, Array upperLimits, String image) throws SQLException {
+    this.uuid = uuid;
+    this.name = name;
+    this.description = description;
+    this.timers = rebuildTimers(timerLabels, lowerLimits, upperLimits);
+    this.image = image;
   }
 
   protected ArrayList<Timer> rebuildTimers(Array timerLabels, Array lowerLimits, Array upperLimits) throws SQLException {
@@ -63,6 +79,14 @@ public class Recipe {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public String getImage() {
+    return image;
+  }
+
+  public void setImage(String image) {
+    this.image = image;
   }
 
   public List<Timer> getTimers() {

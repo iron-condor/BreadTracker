@@ -41,7 +41,8 @@ public class SQLLinker implements DisposableBean {
         + "description text,"
         + "timer_labels text[],"
         + "timer_lower_limits bigint[],"
-        + "timer_upper_limits bigint[]"
+        + "timer_upper_limits bigint[],"
+        + "image text"
       + ")";
 
     /**
@@ -111,7 +112,8 @@ public class SQLLinker implements DisposableBean {
                         r1.getString("description"),
                         r1.getArray("timer_labels"),
                         r1.getArray("timer_upper_limits"),
-                        r1.getArray("timer_lower_limits"));
+                        r1.getArray("timer_lower_limits"),
+                        r1.getString("image"));
             }
             st.close();
             r1.close();
@@ -137,7 +139,8 @@ public class SQLLinker implements DisposableBean {
                         r1.getString("description"),
                         r1.getArray("timer_labels"),
                         r1.getArray("timer_lower_limits"),
-                        r1.getArray("timer_upper_limits")));
+                        r1.getArray("timer_upper_limits"),
+                        r1.getString("image")));
             }
             st.close();
             r1.close();
@@ -158,7 +161,7 @@ public class SQLLinker implements DisposableBean {
         }
         try {
             Connection conn = cpds.getConnection();
-            PreparedStatement st = conn.prepareStatement("INSERT INTO recipe_table(id, name, description, timer_labels, timer_lower_limits, timer_upper_limits) VALUES (?, ?, ?, ?, ?, ?);");
+            PreparedStatement st = conn.prepareStatement("INSERT INTO recipe_table(id, name, description, timer_labels, timer_lower_limits, timer_upper_limits, image) VALUES (?, ?, ?, ?, ?, ?, ?);");
             st.setObject(1, recipe.getUuid());
             st.setString(2, recipe.getName());
             st.setString(3, recipe.getDescription());
@@ -166,10 +169,30 @@ public class SQLLinker implements DisposableBean {
             st.setArray(4, conn.createArrayOf("text", timersMap.get("labels")));
             st.setArray(5, conn.createArrayOf("BIGINT", timersMap.get("lower_limits")));
             st.setArray(6, conn.createArrayOf("BIGINT", timersMap.get("upper_limits")));
+            st.setString(7, recipe.getImage());
             int numInserted = st.executeUpdate();
             st.close();
             conn.close();
             return (numInserted == 1);
+        } catch (SQLException e) {
+            System.out.println("SQL Exception: " + e.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return success;
+    }
+
+    public boolean deleteRecipe(UUID uuid) {
+        boolean success = false;
+        try {
+            Connection conn = cpds.getConnection();
+            PreparedStatement st = conn.prepareStatement("DELETE FROM recipe_table WHERE id=?;");
+            st.setObject(1, uuid);
+            int numDeleted = st.executeUpdate();
+            st.close();
+            conn.close();
+            return (numDeleted == 1);
         } catch (SQLException e) {
             System.out.println("SQL Exception: " + e.toString());
         } catch (Exception e) {

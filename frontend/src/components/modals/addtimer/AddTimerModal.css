@@ -8,30 +8,6 @@
   border-bottom: 1px dashed white;
 }
 
-.addTimerModal .modal-content {
-  background-color: #FFECB3;
-}
-
-.addTimerModal .modal-header {
-  border-bottom: 1px solid #BDBDBD
-}
-
-.addTimerModal .modal-footer {
-  border-top: 1px solid #BDBDBD
-}
-
-.addTimerModal input {
-  background-color: #FFF8E1;
-}
-
-.addTimerModal input:active {
-  background-color: #FFF8E1;
-}
-
-.addTimerModal input:focus {
-  background-color: #FFF8E1;
-}
-
 .timerLimitInputGroup {
   width: 70%;
 }

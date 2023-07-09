@@ -12,6 +12,7 @@ export interface Recipe {
   name: string;
   description: string;
   timers: Timer[];
+  image?: string;
 }
 
 export interface BaseResponse {

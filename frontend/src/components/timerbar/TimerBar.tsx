@@ -1,7 +1,7 @@
 import { ProgressBar } from 'react-bootstrap';
 import { Timer } from '../../types/types';
 import './TimerBar.css'
-import { getTimeLabel } from '../../utils/timeFuncs';
+import { getTimeLabel } from '../../utils/usefulFuncs';
 
 export interface TimerBarProps {
   timers: Timer[];

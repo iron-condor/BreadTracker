@@ -30,3 +30,19 @@
   width: 35%;
   justify-content: space-around;
 }
+
+.recipeImageUpload {
+  cursor: pointer;
+}
+
+.imageIconOverlay {
+  position: relative;
+}
+
+.editImageIcon {
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+  color: white;
+  mix-blend-mode: difference;
+}
