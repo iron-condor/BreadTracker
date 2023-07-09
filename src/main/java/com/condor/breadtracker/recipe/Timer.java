@@ -1,5 +1,6 @@
 package com.condor.breadtracker.recipe;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Timer {
@@ -11,6 +12,24 @@ public class Timer {
   private long upperLimit;
   @JsonProperty
   private boolean overnight;
+
+  @JsonCreator
+  public Timer(@JsonProperty("label") String label,
+               @JsonProperty("lowerLimit") long lowerLimit,
+               @JsonProperty("upperLimit") long upperLimit,
+               @JsonProperty("overnight") boolean overnight) {
+    this.label = label;
+    this.lowerLimit = lowerLimit;
+    this.upperLimit = upperLimit;
+    this.overnight = overnight;
+  }
+
+  public Timer(String label, long lowerLimit, boolean overnight, long upperLimit) {
+    this.label = label;
+    this.lowerLimit = lowerLimit;
+    this.upperLimit = upperLimit;
+    this.overnight = overnight;
+  }
 
   public Timer(String label, long lowerLimit, long upperLimit) {
     this.label = label;

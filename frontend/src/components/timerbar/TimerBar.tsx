@@ -15,30 +15,44 @@ function TimerBar(props: TimerBarProps) {
 
     for (let i = 0; i < props.timers.length; i++) {
       let timer = props.timers[i];
-      let lowerPerc = timer.lowerLimit / timer.upperLimit * 100;
-      let upperPerc = 100 - lowerPerc;
-      ret.push(
-        <div key={"timerBarDiv" + i}>
-          <span>{timer.label}</span>
-          <ProgressBar>
+      if (timer.overnight) {
+        ret.push(
+          <div key={"timerBarDiv" + i}>
+            <span>{timer.label}</span>
             <ProgressBar
               striped={timer.active}
               animated={timer.active}
-              variant={"warning"}
-              now={lowerPerc}
-              label={getTimeLabel(timer.lowerLimit)}
+              variant={"success"}
+              now={100}
+              label={"Overnight"}
               />
-            <ProgressBar
-              striped={timer.active}
-              animated={timer.active}
-              variant={"danger"}
-              now={upperPerc}
-              label={getTimeLabel(timer.upperLimit)}
-              visuallyHidden={timer.lowerLimit == timer.upperLimit}
-              />
-          </ProgressBar>
-        </div>
-      );
+          </div>);
+      } else {
+        let lowerPerc = timer.lowerLimit / timer.upperLimit * 100;
+        let upperPerc = 100 - lowerPerc;
+        ret.push(
+          <div key={"timerBarDiv" + i}>
+            <span>{timer.label}</span>
+            <ProgressBar>
+              <ProgressBar
+                striped={timer.active}
+                animated={timer.active}
+                variant={"warning"}
+                now={lowerPerc}
+                label={getTimeLabel(timer.lowerLimit)}
+                />
+              <ProgressBar
+                striped={timer.active}
+                animated={timer.active}
+                variant={"danger"}
+                now={upperPerc}
+                label={getTimeLabel(timer.upperLimit)}
+                visuallyHidden={timer.lowerLimit == timer.upperLimit}
+                />
+            </ProgressBar>
+          </div>
+        );
+      }
     }
 
     return ret;
