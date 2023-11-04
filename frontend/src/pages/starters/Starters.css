@@ -1,0 +1,49 @@
+.starterPreviewContainer {
+  width: 100vw;
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  row-gap: 10px;
+  column-gap: 30px;
+  padding: 1rem;
+}
+
+.addBreadCollapseBtn {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.newStarterDiv {
+  background-color: #B2EBF2;
+}
+
+.formButtonFooter {
+  display: flex;
+  margin-top: 1rem;
+  gap: 1rem;
+}
+
+.floatRightBtnGroup {
+  margin-left: auto;
+  display: flex;
+  width: 35%;
+  justify-content: space-around;
+}
+
+.imageIconOverlay {
+  position: relative;
+}
+
+.editImageIcon {
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+  color: white;
+  mix-blend-mode: difference;
+}
+
+.sameRow {
+  display: flex;
+  flex-wrap: nowrap;
+}

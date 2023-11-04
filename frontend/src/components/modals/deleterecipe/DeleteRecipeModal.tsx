@@ -16,7 +16,7 @@ interface DeleteRecipeModalProps {
 function DeleteRecipeModal(props: DeleteRecipeModalProps) {
 
   const deleteRecipe = async () => {
-    connector.delete('recipes/delete/' + props.recipeUUID).then((result) => {
+    connector.delete('recipes/' + props.recipeUUID).then((result) => {
       if (result.status == 200 && result.data.success) {
         toast.success("Recipe successfully deleted");
         props.setShowModalFunc(false);

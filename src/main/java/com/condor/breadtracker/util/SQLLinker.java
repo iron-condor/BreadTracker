@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import com.condor.breadtracker.recipe.Recipe;
+import com.condor.breadtracker.starter.Starter;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 /**
@@ -33,23 +34,35 @@ public class SQLLinker implements DisposableBean {
     private static SQLLinker linker;
 
     // Create table SQL statements
+    // TODO: Add constraints, break these out to another file, or play with another
+    // method than PreparedStatements
 
     private static final String SQL_CREATE_RECIPE_TABLE = ""
-    + "CREATE TABLE IF NOT EXISTS recipe_table ("
-        + "id uuid,"
-        + "name text,"
-        + "description text,"
-        + "timer_labels text[],"
-        + "timer_lower_limits bigint[],"
-        + "timer_upper_limits bigint[],"
-        + "image text"
-      + ")";
+            + "CREATE TABLE IF NOT EXISTS recipe_table ("
+            + "id uuid,"
+            + "name text,"
+            + "description text,"
+            + "timer_labels text[],"
+            + "timer_lower_limits bigint[],"
+            + "timer_upper_limits bigint[],"
+            + "image text"
+            + ")";
+
+    private static final String SQL_CREATE_STARTER_TABLE = ""
+            + "CREATE TABLE IF NOT EXISTS starter_table ("
+            + "id uuid,"
+            + "name text,"
+            + "flourType text,"
+            + "inFridge boolean,"
+            + "timeLastFed bigint"
+            + ")";
 
     /**
      * This method gets invoked when the Tomcat deploys
      * the WAR file. It handles SQLLinker startup by
-     * creating an instance of the singleton, and 
+     * creating an instance of the singleton, and
      * creating all tables if they do not exist.
+     * 
      * @return The singleton
      */
     @Bean
@@ -83,6 +96,7 @@ public class SQLLinker implements DisposableBean {
      */
     public void createAllTables() {
         this.createRecipeTable();
+        this.createStarterTable();
     }
 
     public void createRecipeTable() {
@@ -99,11 +113,25 @@ public class SQLLinker implements DisposableBean {
         }
     }
 
+    public void createStarterTable() {
+        try {
+            Connection conn = cpds.getConnection();
+            PreparedStatement st = conn.prepareStatement(SQL_CREATE_STARTER_TABLE);
+            st.execute();
+            st.close();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("SQL Exception: " + e.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public Recipe getRecipe(UUID uuid) {
         Recipe recipe = null;
         try {
             Connection conn = cpds.getConnection();
-            PreparedStatement st = conn.prepareStatement("select * from recipe_table where uuid = ?");
+            PreparedStatement st = conn.prepareStatement("select * from recipe_table where id::text = ?");
             st.setString(1, uuid.toString());
             ResultSet r1 = st.executeQuery();
             if (r1.next()) {
@@ -161,7 +189,8 @@ public class SQLLinker implements DisposableBean {
         }
         try {
             Connection conn = cpds.getConnection();
-            PreparedStatement st = conn.prepareStatement("INSERT INTO recipe_table(id, name, description, timer_labels, timer_lower_limits, timer_upper_limits, image) VALUES (?, ?, ?, ?, ?, ?, ?);");
+            PreparedStatement st = conn.prepareStatement(
+                    "INSERT INTO recipe_table(id, name, description, timer_labels, timer_lower_limits, timer_upper_limits, image) VALUES (?, ?, ?, ?, ?, ?, ?);");
             st.setObject(1, recipe.getUuid());
             st.setString(2, recipe.getName());
             st.setString(3, recipe.getDescription());
@@ -216,5 +245,127 @@ public class SQLLinker implements DisposableBean {
 
     public static SQLLinker getInstance() {
         return linker;
+    }
+
+    public ArrayList<Starter> getStarters() {
+        ArrayList<Starter> starters = new ArrayList<>();
+        try {
+            Connection conn = cpds.getConnection();
+            PreparedStatement st = conn.prepareStatement("select * from starter_table;");
+            ResultSet r1 = st.executeQuery();
+            while (r1.next()) {
+                starters.add(new Starter(
+                        UUID.fromString(r1.getString("id")),
+                        r1.getString("name"),
+                        r1.getString("flourType"),
+                        r1.getBoolean("inFridge"),
+                        r1.getLong("timeLastFed")));
+            }
+            st.close();
+            r1.close();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("SQL Exception: " + e.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return starters;
+    }
+
+    public boolean addStarter(Starter starter) {
+        boolean success = false;
+        if (starter == null) {
+            return false;
+        }
+        try {
+            Connection conn = cpds.getConnection();
+            PreparedStatement st = conn.prepareStatement(
+                    "INSERT INTO starter_table(id, name, flourType, inFridge, timeLastFed) VALUES (?, ?, ?, ?, ?);");
+            st.setObject(1, starter.getUuid());
+            st.setString(2, starter.getName());
+            st.setString(3, starter.getFlourType());
+            st.setBoolean(4, starter.isInFridge());
+            st.setLong(5, starter.getTimeLastFed());
+            int numInserted = st.executeUpdate();
+            st.close();
+            conn.close();
+            return (numInserted == 1);
+        } catch (SQLException e) {
+            System.out.println("SQL Exception: " + e.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return success;
+    }
+
+    public boolean deleteStarter(UUID uuid) {
+        boolean success = false;
+        try {
+            Connection conn = cpds.getConnection();
+            PreparedStatement st = conn.prepareStatement("DELETE FROM starter_table WHERE id=?;");
+            st.setObject(1, uuid);
+            int numDeleted = st.executeUpdate();
+            st.close();
+            conn.close();
+            return (numDeleted == 1);
+        } catch (SQLException e) {
+            System.out.println("SQL Exception: " + e.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return success;
+    }
+
+    public Starter getStarter(UUID uuid) {
+        Starter starter = null;
+        try {
+            Connection conn = cpds.getConnection();
+            PreparedStatement st = conn.prepareStatement("select * from starter_table where id::text = ?");
+            st.setString(1, uuid.toString());
+            ResultSet r1 = st.executeQuery();
+            if (r1.next()) {
+                starter = new Starter(
+                    UUID.fromString(r1.getString("id")),
+                    r1.getString("name"),
+                    r1.getString("flourType"),
+                    r1.getBoolean("inFridge"),
+                    r1.getLong("timeLastFed")
+                );
+            }
+            st.close();
+            r1.close();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("SQL Exception: " + e.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return starter;
+    }
+
+    public boolean updateStarter(Starter starter) {
+        boolean success = false;
+        try {
+            Connection conn = cpds.getConnection();
+            PreparedStatement st = conn.prepareStatement("UPDATE starter_table SET name=? flourType=? inFridge=? timeLastFed=? WHERE id=?");
+            st.setString(1, starter.getName());
+            st.setString(2, starter.getFlourType());
+            st.setBoolean(3, starter.isInFridge());
+            st.setLong(4, starter.getTimeLastFed());
+            st.setString(5, starter.getUuid().toString());
+            success = (st.executeUpdate() == 1);
+            st.close();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("SQL Exception: " + e.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return success;
     }
 }

@@ -1,0 +1,39 @@
+.starterPreviewDiv {
+  width: 30rem;
+  background-color: #FFECB3;
+  border-radius: 20px;
+}
+
+.starterPreviewImage {
+  width: 30rem;
+  height: 15rem;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.starterPreviewBelowImage {
+  padding: 1rem;
+}
+
+.starterPreviewTitle {
+  /* font-weight: normal; */
+}
+
+.starterPreviewDescription {
+  font-style: italic;
+}
+
+.timerCollapseBtn {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.starterPreviewImageBg {
+  background: repeating-linear-gradient(
+    45deg,
+    #FFCC8044,
+    #FFCC8044 10px,
+    #FFA72644 10px,
+    #FFA72644 20px
+);
+}

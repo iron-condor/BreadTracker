@@ -45,7 +45,7 @@ public class RecipeController {
   }
 
 
-  @RequestMapping(value = "/recipes/getAll", method = RequestMethod.GET)
+  @RequestMapping(value = "/recipes", method = RequestMethod.GET)
   ResponseEntity<GetRecipesResponse> getRecipes(HttpServletRequest request) {
     GetRecipesResponse resp = new GetRecipesResponse();
 
@@ -58,7 +58,7 @@ public class RecipeController {
     return ResponseEntity.status(HttpStatus.OK).body(resp);
   }
 
-  @RequestMapping(value = "/recipes/new", method = RequestMethod.POST)
+  @RequestMapping(value = "/recipes", method = RequestMethod.POST)
   ResponseEntity<AddRecipeResponse> newRecipe(HttpServletRequest request, @RequestBody AddRecipeRequest requestBody) {
     AddRecipeResponse resp = new AddRecipeResponse();
 
@@ -80,7 +80,7 @@ public class RecipeController {
     return ResponseEntity.status(HttpStatus.OK).body(resp);
   }
 
-  @RequestMapping(value = "/recipes/delete/{uuid}", method = RequestMethod.DELETE)
+  @RequestMapping(value = "/recipes/{uuid}", method = RequestMethod.DELETE)
   ResponseEntity<BaseResponse> deleteRecipe(HttpServletRequest request, @PathVariable String uuid) {
     BaseResponse resp = new BaseResponse();
     

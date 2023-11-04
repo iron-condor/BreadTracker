@@ -34,7 +34,7 @@ function Recipes() {
   const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm();
 
   const loadRecipes = async () => {
-    await connector.get('recipes/getAll')
+    await connector.get('recipes')
       .then((result) => {
         if (result.status == 200 && result.data.success) {
           let data: GetRecipesResponse = result.data;
@@ -58,7 +58,7 @@ function Recipes() {
   const saveRecipe: SubmitHandler<AddRecipeRequest> = async (data: AddRecipeRequest) => {
     data.timers = timers;
     data.image = (addedImage == null) ? undefined : (await toBase64(addedImage));
-    await connector.post('recipes/new', data)
+    await connector.post('recipes', data)
       .then((result) => {
         if (result.status == 200 && result.data.success) {
           setRecipes([...recipes, result.data.newRecipe])

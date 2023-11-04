@@ -15,6 +15,17 @@ export interface Recipe {
   image?: string;
 }
 
+export interface Starter {
+  uuid: string;
+  name: string;
+  flourType: String;
+  inFridge: boolean;
+  // Currently in server time
+  // TODO: Make this UTC
+  timeLastFed: number;
+  nextFeedingTime?: number;
+}
+
 export interface BaseResponse {
   success: boolean;
   errorMessage: string;
