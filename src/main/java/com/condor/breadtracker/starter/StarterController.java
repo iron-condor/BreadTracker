@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.condor.breadtracker.util.BaseResponse;
@@ -32,7 +33,7 @@ public class StarterController {
     public Starter newStarter;
   }
 
-  public static class FeedStarterResponse extends BaseResponse {
+  public static class UpdateStarterResponse extends BaseResponse {
     public Starter starter;
   }
 
@@ -76,13 +77,26 @@ public class StarterController {
     return ResponseEntity.status(HttpStatus.OK).body(resp);
   }
 
-  @RequestMapping(value = "/starters/{uuid}", method = RequestMethod.PUT)
-  ResponseEntity<FeedStarterResponse> feedStarter(HttpServletRequest request, @PathVariable String uuid) {
-    FeedStarterResponse resp = new FeedStarterResponse();
+  @RequestMapping(value = "/starters/feed/{uuid}", method = RequestMethod.PUT)
+  ResponseEntity<UpdateStarterResponse> feedStarter(HttpServletRequest request, @PathVariable String uuid) {
+    UpdateStarterResponse resp = new UpdateStarterResponse();
     
     // TODO: Handle nulls or starter not found
     Starter starter = SQLLinker.getInstance().getStarter(UUID.fromString(uuid));
     starter.feed();
+    resp.success = SQLLinker.getInstance().updateStarter(starter);
+    resp.starter = starter;
+    
+    return ResponseEntity.status(HttpStatus.OK).body(resp);
+  }
+
+  @RequestMapping(value = "/starters/move/{uuid}", method = RequestMethod.PUT)
+  ResponseEntity<UpdateStarterResponse> moveStarter(HttpServletRequest request, @PathVariable String uuid, @RequestParam boolean inFridge) {
+    UpdateStarterResponse resp = new UpdateStarterResponse();
+    
+    // TODO: Handle nulls or starter not found
+    Starter starter = SQLLinker.getInstance().getStarter(UUID.fromString(uuid));
+    starter.setInFridge(inFridge);
     resp.success = SQLLinker.getInstance().updateStarter(starter);
     resp.starter = starter;
     

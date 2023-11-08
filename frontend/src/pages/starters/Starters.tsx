@@ -72,7 +72,13 @@ function Starters() {
     let ret: JSX.Element[] = [];
 
     for (let starter of starters) {
-      ret.push(<StarterPreview starter={starter}  key={starter.uuid} /* img={recipe.image} */ deleteStarterFunc={() => deleteStarter(starter.uuid)} feedStarterFunc={() => feedStarter(starter.uuid)} />)
+      ret.push(<StarterPreview 
+        starter={starter}
+        key={starter.uuid}
+        deleteStarterFunc={() => deleteStarter(starter.uuid)}
+        feedStarterFunc={updateStarter} 
+        moveStarterFunc={updateStarter}
+        />)
       // if (recipe.image != null) {
       //   ret.push(<RecipePreview recipe={recipe} key={recipe.uuid} img={recipe.image} deleteRecipeFunc={() => deleteRecipe(recipe.uuid)} />)
       // } else {
@@ -85,13 +91,17 @@ function Starters() {
 
   const deleteStarter = (starterUUID: string): void => {
     let clone = starters.filter((starter) => starter.uuid !== starterUUID);
-    console.log(starters);
-    console.log(clone);
     setStarters(clone);
   }
 
-  const feedStarter = (starterUUID: string): void => {
-    // TODO: Do any special activities here
+  const updateStarter = (updatedStarter: Starter): void => {
+    let clone = starters.slice();
+    starters.forEach((val, index) => {
+      if (val.uuid === updatedStarter.uuid) {
+        clone[index] = updatedStarter;
+      }
+    });
+    setStarters(clone);
   }
 
   useEffect(() => {

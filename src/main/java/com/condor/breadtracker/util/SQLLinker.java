@@ -50,7 +50,7 @@ public class SQLLinker implements DisposableBean {
 
     private static final String SQL_CREATE_STARTER_TABLE = ""
             + "CREATE TABLE IF NOT EXISTS starter_table ("
-            + "id uuid,"
+            + "id text,"
             + "name text,"
             + "flourType text,"
             + "inFridge boolean,"
@@ -131,7 +131,7 @@ public class SQLLinker implements DisposableBean {
         Recipe recipe = null;
         try {
             Connection conn = cpds.getConnection();
-            PreparedStatement st = conn.prepareStatement("select * from recipe_table where id::text = ?");
+            PreparedStatement st = conn.prepareStatement("select * from recipe_table where id = ?");
             st.setString(1, uuid.toString());
             ResultSet r1 = st.executeQuery();
             if (r1.next()) {
@@ -323,7 +323,7 @@ public class SQLLinker implements DisposableBean {
         Starter starter = null;
         try {
             Connection conn = cpds.getConnection();
-            PreparedStatement st = conn.prepareStatement("select * from starter_table where id::text = ?");
+            PreparedStatement st = conn.prepareStatement("select * from starter_table where id = ?");
             st.setString(1, uuid.toString());
             ResultSet r1 = st.executeQuery();
             if (r1.next()) {
@@ -351,7 +351,7 @@ public class SQLLinker implements DisposableBean {
         boolean success = false;
         try {
             Connection conn = cpds.getConnection();
-            PreparedStatement st = conn.prepareStatement("UPDATE starter_table SET name=? flourType=? inFridge=? timeLastFed=? WHERE id=?");
+            PreparedStatement st = conn.prepareStatement("UPDATE starter_table SET name=?, flourType=?, inFridge=?, timeLastFed=? WHERE id=?");
             st.setString(1, starter.getName());
             st.setString(2, starter.getFlourType());
             st.setBoolean(3, starter.isInFridge());

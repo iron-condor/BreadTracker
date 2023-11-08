@@ -71,3 +71,7 @@
 .breadModal input:focus {
   background-color: #FFF8E1;
 }
+
+.squareButton {
+  aspect-ratio: 1/1;
+}

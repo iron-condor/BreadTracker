@@ -35,5 +35,59 @@
     #FFCC8044 10px,
     #FFA72644 10px,
     #FFA72644 20px
-);
+  );
+}
+
+.starterLocationDiv {
+  display: flex;
+  width: fit-content;
+  flex-direction: column;
+  align-items: center;
+}
+
+.starterLocationDiv p {
+  font-size: 20pt;
+}
+
+.locationIconLabelBox svg {
+  font-size: 20pt;
+}
+
+.locationIconLabelBox span {
+  font-size: 15pt;
+}
+
+.locationSwitchContainer {
+  display: flex;
+}
+
+.locationIconLabelBox {
+  display: flex;
+  flex-direction: column;
+}
+
+.locationFeedDiv {
+  margin-top: 20px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.feedStarterBtn svg {
+  font-size: 25pt;
+  margin-bottom: 10px;
+}
+
+.fridgeCounterSwitch .form-check-input {
+  width: 65px;
+  height: 25px;
+}
+
+.fridgeCounterSwitch .form-check-input:checked {
+  background-color: #FFA726;
+  border-color: #FFA726;
+}
+
+.hungryStarterPreview {
+  background-color: #FFCCBC;
 }
