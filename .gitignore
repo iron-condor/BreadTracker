@@ -23,5 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 target/*
-target
+target/
 *.class
+src/main/resources/application.properties
+secret/
+secret/*
