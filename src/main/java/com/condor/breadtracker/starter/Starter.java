@@ -8,14 +8,16 @@ public class Starter {
   private String flourType;
   private boolean inFridge;
   private long timeLastFed;
+  private long timeLastNotified;
   private UUID uuid;
 
-  public Starter(UUID uuid, String name, String flourType, boolean inFridge, long timeLastFed) {
+  public Starter(UUID uuid, String name, String flourType, boolean inFridge, long timeLastFed, long timeLastNotified) {
     this.uuid = uuid;
     this.name = name;
     this.flourType = flourType;
     this.inFridge = inFridge;
     this.timeLastFed = timeLastFed;
+    this.timeLastNotified = timeLastNotified;
   }
 
   public Starter(UUID uuid, String name, String flourType, boolean inFridge) {
@@ -60,6 +62,14 @@ public class Starter {
 
   public void setTimeLastFed(long timeLastFed) {
     this.timeLastFed = timeLastFed;
+  }
+
+  public long getTimeLastNotified() {
+    return timeLastNotified;
+  }
+
+  public void setTimeLastNotified(long timeLastNotified) {
+    this.timeLastNotified = timeLastNotified;
   }
 
   public String getName() {

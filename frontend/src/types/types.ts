@@ -24,6 +24,7 @@ export interface Starter {
   // TODO: Make this UTC
   timeLastFed: number;
   nextFeedingTime?: number;
+  timeLastNotified?: number;
 }
 
 export interface BaseResponse {

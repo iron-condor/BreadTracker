@@ -54,7 +54,8 @@ public class SQLLinker implements DisposableBean {
             + "name text,"
             + "flourType text,"
             + "inFridge boolean,"
-            + "timeLastFed bigint"
+            + "timeLastFed bigint,"
+            + "timeLastNotified bigint"
             + ")";
 
     /**
@@ -259,7 +260,8 @@ public class SQLLinker implements DisposableBean {
                         r1.getString("name"),
                         r1.getString("flourType"),
                         r1.getBoolean("inFridge"),
-                        r1.getLong("timeLastFed")));
+                        r1.getLong("timeLastFed"),
+                        r1.getLong("timeLastNotified")));
             }
             st.close();
             r1.close();
@@ -281,12 +283,13 @@ public class SQLLinker implements DisposableBean {
         try {
             Connection conn = cpds.getConnection();
             PreparedStatement st = conn.prepareStatement(
-                    "INSERT INTO starter_table(id, name, flourType, inFridge, timeLastFed) VALUES (?, ?, ?, ?, ?);");
+                    "INSERT INTO starter_table(id, name, flourType, inFridge, timeLastFed, timeLastNotified) VALUES (?, ?, ?, ?, ?, ?);");
             st.setObject(1, starter.getUuid());
             st.setString(2, starter.getName());
             st.setString(3, starter.getFlourType());
             st.setBoolean(4, starter.isInFridge());
             st.setLong(5, starter.getTimeLastFed());
+            st.setLong(6, starter.getTimeLastNotified());
             int numInserted = st.executeUpdate();
             st.close();
             conn.close();
@@ -332,7 +335,8 @@ public class SQLLinker implements DisposableBean {
                     r1.getString("name"),
                     r1.getString("flourType"),
                     r1.getBoolean("inFridge"),
-                    r1.getLong("timeLastFed")
+                    r1.getLong("timeLastFed"),
+                    r1.getLong("timeLastNotified")
                 );
             }
             st.close();
@@ -351,12 +355,13 @@ public class SQLLinker implements DisposableBean {
         boolean success = false;
         try {
             Connection conn = cpds.getConnection();
-            PreparedStatement st = conn.prepareStatement("UPDATE starter_table SET name=?, flourType=?, inFridge=?, timeLastFed=? WHERE id=?");
+            PreparedStatement st = conn.prepareStatement("UPDATE starter_table SET name=?, flourType=?, inFridge=?, timeLastFed=?, timeLastNotified=? WHERE id=?");
             st.setString(1, starter.getName());
             st.setString(2, starter.getFlourType());
             st.setBoolean(3, starter.isInFridge());
             st.setLong(4, starter.getTimeLastFed());
-            st.setString(5, starter.getUuid().toString());
+            st.setLong(5, starter.getTimeLastNotified());
+            st.setString(6, starter.getUuid().toString());
             success = (st.executeUpdate() == 1);
             st.close();
             conn.close();
