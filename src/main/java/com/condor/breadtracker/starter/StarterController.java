@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,11 +14,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.condor.breadtracker.push.PushManager;
 import com.condor.breadtracker.util.BaseResponse;
 import com.condor.breadtracker.util.SQLLinker;
 
 @RestController
 public class StarterController {
+
+  @Autowired
+  PushManager pushManager;
 
   public static class GetStartersResponse extends BaseResponse {
     public Starter[] starterList;
@@ -81,8 +86,12 @@ public class StarterController {
   ResponseEntity<UpdateStarterResponse> feedStarter(HttpServletRequest request, @PathVariable String uuid) {
     UpdateStarterResponse resp = new UpdateStarterResponse();
     
-    // TODO: Handle nulls or starter not found
     Starter starter = SQLLinker.getInstance().getStarter(UUID.fromString(uuid));
+    if (starter == null) {
+      resp.success = false;
+      resp.errorMessage = "No starter found matching provided ID";
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(resp);
+    }
     starter.feed();
     resp.success = SQLLinker.getInstance().updateStarter(starter);
     resp.starter = starter;
@@ -94,12 +103,33 @@ public class StarterController {
   ResponseEntity<UpdateStarterResponse> moveStarter(HttpServletRequest request, @PathVariable String uuid, @RequestParam boolean inFridge) {
     UpdateStarterResponse resp = new UpdateStarterResponse();
     
-    // TODO: Handle nulls or starter not found
     Starter starter = SQLLinker.getInstance().getStarter(UUID.fromString(uuid));
+    if (starter == null) {
+      resp.success = false;
+      resp.errorMessage = "No starter found matching provided ID";
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(resp);
+    }
     starter.setInFridge(inFridge);
     resp.success = SQLLinker.getInstance().updateStarter(starter);
     resp.starter = starter;
     
     return ResponseEntity.status(HttpStatus.OK).body(resp);
+  }
+
+  // Helper endpoint for development. Sends a push notification about starter needing to be fed
+  @RequestMapping(value = "/starters/notify/{uuid}", method = RequestMethod.POST)
+  ResponseEntity<UpdateStarterResponse> notifyAboutStarter(HttpServletRequest request, @PathVariable String uuid) {
+    UpdateStarterResponse resp = new UpdateStarterResponse();
+
+    Starter starter = SQLLinker.getInstance().getStarter(UUID.fromString(uuid));
+    if (starter == null) {
+      resp.success = false;
+      resp.errorMessage = "No starter found matching provided ID";
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(resp);
+    }
+    resp.success = pushManager.sendFeedStarterReminder(starter);
+    resp.starter = starter;
+
+    return ResponseEntity.ok().body(resp);
   }
 }
