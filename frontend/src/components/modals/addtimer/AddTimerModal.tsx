@@ -1,8 +1,8 @@
-import { Button, ButtonGroup, Collapse, Form, InputGroup, Modal, Overlay, OverlayTrigger, Popover } from "react-bootstrap";
+import { Button, ButtonGroup, Form, InputGroup, Modal, OverlayTrigger, Popover } from "react-bootstrap";
 import './AddTimerModal.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faInfoCircle, faVolumeHigh } from '@fortawesome/free-solid-svg-icons';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Timer } from "../../../types/types";
 import { useForm } from "react-hook-form";
 import '../../../common.css';
@@ -25,7 +25,11 @@ interface AddTimerFormData {
 
 function AddTimerModal(props: AddTimerModalProps) {
   const [isOvernightTimer, setIsOvernightTimer] = useState<boolean>(false);
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const { register, handleSubmit, watch, formState: { errors }, getValues } = useForm();
+  const [numSoftHours, setNumSoftHours] = useState<number>(0);
+  const [numSoftMinutes, setNumSoftMinutes] = useState<number>(0);
+  const [numHardHours, setNumHardHours] = useState<number>(0);
+  const [numHardMinutes, setNumHardMinutes] = useState<number>(0);
   const popover = (<Popover className="infoPopover">
     <Popover.Header as="h3">What are step timers?</Popover.Header>
     <Popover.Body>
@@ -48,9 +52,9 @@ function AddTimerModal(props: AddTimerModalProps) {
   const minutesToMs = (minutes: number): number => {return minutes * 60 * 1000};
 
   const updateTimers = (data: AddTimerFormData) => {
-    let lowerLimit = (data.softLimitHours != undefined && data.softLimitMinutes) ? (hoursToMs(data.softLimitHours) + minutesToMs(data.softLimitMinutes)) : -1;
-    let upperLimit = (data.hardLimitHours != undefined && data.hardLimitMinutes) ? (hoursToMs(data.hardLimitHours) + minutesToMs(data.hardLimitMinutes)) : -1;
-    let newTimer: Timer = {
+    const lowerLimit = (data.softLimitHours != undefined && data.softLimitMinutes) ? (hoursToMs(data.softLimitHours) + minutesToMs(data.softLimitMinutes)) : -1;
+    const upperLimit = (data.hardLimitHours != undefined && data.hardLimitMinutes) ? (hoursToMs(data.hardLimitHours) + minutesToMs(data.hardLimitMinutes)) : -1;
+    const newTimer: Timer = {
       label: data.name,
       lowerLimit: lowerLimit,
       upperLimit: upperLimit,
@@ -60,6 +64,24 @@ function AddTimerModal(props: AddTimerModalProps) {
     props.setShowModalFunc(false);
   }
 
+  useEffect(() => {
+    if (numHardHours < numSoftHours) {
+      setNumHardHours(numSoftHours);
+    }
+    if (numHardMinutes < numSoftMinutes && numHardHours <= numSoftHours) {
+      setNumHardMinutes(numSoftMinutes);
+    }
+  }, [numSoftHours, numSoftMinutes]);
+
+  useEffect(() => {
+    if (numHardHours < numSoftHours) {
+      setNumSoftHours(numHardHours);
+    }
+    if (numHardMinutes < numSoftMinutes && numHardHours <= numSoftHours) {
+      setNumSoftMinutes(numHardMinutes);
+    }
+  }, [numHardHours, numHardMinutes]);
+
   return (
     // TODO: Add validation
     <Modal className="breadModal" show={props.showModal} onHide={() => props.setShowModalFunc(false)}>
@@ -67,7 +89,7 @@ function AddTimerModal(props: AddTimerModalProps) {
 
         <Modal.Header closeButton>
           <Modal.Title>Add Step Timer
-            <OverlayTrigger trigger="hover" placement="right" overlay={popover}>
+            <OverlayTrigger trigger={["hover", "focus"]} placement="right" overlay={popover}>
               <FontAwesomeIcon icon={faInfoCircle} className="infoTooltipButton"/>
             </OverlayTrigger>
           </Modal.Title>
@@ -84,17 +106,17 @@ function AddTimerModal(props: AddTimerModalProps) {
             <br/>
             <Form.Label>Soft limit</Form.Label>
             <InputGroup className="timerLimitInputGroup">
-              <Form.Control defaultValue={0} inputMode="numeric" type="number" min={0} {...register("softLimitHours")}/>
+              <Form.Control defaultValue={0} inputMode="numeric" type="number" min={0} value={numSoftHours} {...register("softLimitHours")} onChange={(e) => {setNumSoftHours(Number(e.target.value))}}/>
               <InputGroup.Text>hours</InputGroup.Text>
-              <Form.Control defaultValue={0} inputMode="numeric" type="number" min={0} {...register("softLimitMinutes")}/>
+              <Form.Control defaultValue={0} inputMode="numeric" type="number" min={0} value={numSoftMinutes} max={59} {...register("softLimitMinutes")} onChange={(e) => {setNumSoftMinutes(Number(e.target.value))}}/>
               <InputGroup.Text>minutes</InputGroup.Text>
             </InputGroup>
             <br/>
             <Form.Label>Hard limit</Form.Label>
             <InputGroup className="timerLimitInputGroup">
-              <Form.Control required defaultValue={0} inputMode="numeric" type="number" min={0} {...register("hardLimitHours")}/>
+              <Form.Control required defaultValue={0} inputMode="numeric" type="number" min={0} value={numHardHours} {...register("hardLimitHours")} onChange={(e) => {setNumHardHours(Number(e.target.value))}}/>
               <InputGroup.Text>hours</InputGroup.Text>
-              <Form.Control required defaultValue={0} inputMode="numeric" type="number" min={0} {...register("hardLimitMinutes")}/>
+              <Form.Control required defaultValue={0} inputMode="numeric" type="number" min={0} value={numHardMinutes} max={59} {...register("hardLimitMinutes")} onChange={(e) => {setNumHardMinutes(Number(e.target.value))}}/>
               <InputGroup.Text>minutes</InputGroup.Text>
             </InputGroup>
           </Form.Group>

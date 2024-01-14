@@ -151,6 +151,7 @@ function Recipes() {
                 <div className="editingTimersGroup">
                   {renderTimers(timers)}
                 </div>
+                {/* TODO: Add option for deleting a step, or reordering steps */}
                 <div className="formButtonFooter">
                   <Button className="themeBtn" onClick={() => setShowAddTimerModal(true)}><FontAwesomeIcon icon={faPlus} className="mr-5" />Add step</Button>
                   <div className="floatRightBtnGroup">
